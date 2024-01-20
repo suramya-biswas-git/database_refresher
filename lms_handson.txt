@@ -1,0 +1,168 @@
+select * from lms_members;
+select * from lms_suppliers_details;
+select * from lms_fine_details;
+select * from lms_book_details;
+select * from lms_book_issue;
+
+-- 1 --
+
+CREATE TABLE LMS_MEMBERS(
+MEMBER_ID VARCHAR(10) PRIMARY KEY,
+MEMBER_NAME VARCHAR(30),
+CITY VARCHAR(20),
+DATE_REGISTER DATE,
+DATE_EXPIRE DATE,
+MEMBERSHIP_STATUS VARCHAR(25)
+);
+
+
+-- 2 -- 
+CREATE TABLE LMS_SUPPLIERS_DETAILS(
+SUPPLIER_ID VARCHAR(03) PRIMARY KEY,
+SUPPLIER_NAME VARCHAR(30),
+ADDRESS VARCHAR(50),
+CONTACT NUMERIC(10),
+EMAIL VARCHAR(30)
+);
+
+-- 3 --
+
+CREATE TABLE LMS_FINE_DETAILS(
+FINE_RANGE VARCHAR(3)PRIMARY KEY,
+FINE_AMOUNT NUMERIC(5)
+);
+
+-- 4 --
+
+CREATE TABLE LMS_BOOK_DETAILS(
+BOOK_CODE VARCHAR(20) PRIMARY KEY,
+BOOK_TITLE VARCHAR(50),
+CATEGORY VARCHAR(15),
+AUTHOR VARCHAR(30),
+PUBLICATION  VARCHAR(30),
+PUBLISH_DATE DATE,
+BOOK_EDITION NUMERIC(2),
+PRICE NUMERIC(4),
+RACK_NUMBER VARCHAR(3),
+DATE_ARRIVAL DATE,
+SUPPLIER_ID VARCHAR(3),
+FOREIGN KEY (SUPPLIER_ID) REFERENCES LMS_SUPPLIERS_DETAILS(SUPPLIER_ID)
+);
+
+-- 5 --
+
+CREATE TABLE LMS_BOOK_ISSUE(
+BOOK_ISSUE_NUMBER NUMERIC(3)PRIMARY KEY,
+MEMBER_ID VARCHAR(10), 
+BOOK_CODE VARCHAR(10),
+DATE_ISSUE DATE,
+DATE_RETURN DATE,
+DATE_RETURNED DATE,
+BOOK_ISSUE_STATUS VARCHAR(20),
+FINE_RANGE VARCHAR(3), 
+FOREIGN KEY (MEMBER_ID) REFERENCES LMS_MEMBERS(MEMBER_ID),
+FOREIGN KEY (BOOK_CODE)REFERENCES LMS_BOOK_DETAILS(BOOK_CODE),
+FOREIGN KEY (FINE_RANGE) REFERENCES LMS_FINE_DETAILS(FINE_RANGE)
+);
+
+
+
+-- inserting details --
+
+INSERT INTO LMS_MEMBERS VALUES
+('LM001','AMIT','CHENNAI','2012-09-02','2013-09-02','Temporary'),
+('LM002','ABDHUL','DELHI','2012-04-10','2013-04-09','Temporary'),
+('LM003','GAYAN','CHENNAI','2012-05-12','2013-05-14','Permanent'),
+('LM004','RADHA','CHENNAI','2012-04-22','2013-04-21','Temporary'),
+('LM005','GURU','BANGALORE','2012-03-30','2013-03-29','Temporary'),
+('LM006','MOHAN','CHENNAI','2012-04-12','2013-04-12','Temporary');
+
+INSERT INTO LMS_SUPPLIERS_DETAILS VALUES
+('S01','SINGAPORE SHOPPEE','CHENNAI',9894123555,'sing@gmail.com'),
+('S02','JK Stores','MUMBAI',9940123450,'jks@yahoo.com'),
+('S03','ROSE BOOK STORE','TRIVANDRUM',9444411222,'rose@gmail.com'),
+('S04','KAVARI STORE','DELHI',8630001452,'kavi@redif.com'),
+('S05','EINSTEN BOOK GALLERY','US',9542000001,'eingal@aol.com'),
+('S06','AKBAR STORE','MUMBAI',7855623100,'akbakst@aol.com');
+
+
+INSERT INTO LMS_FINE_DETAILS VALUES
+('R1',20),
+('R2',50),
+('R3',75),
+('R4',100),
+('R5',150),
+('R6',200);
+
+INSERT INTO LMS_BOOK_DETAILS VALUES
+('BL000001','Java How To Do Program','JAVA','Paul J. Deitel','Prentice Hall','1999/12/10',6,600,'A1','2011/05/10','S01'),
+('BL000002','Java: The Complete Reference','JAVA','Herbert Schildt','Tata Mcgraw Hill','2011/10/10',5,750,'A1','2011/05/10','S03'),
+('BL000003','Java How To Do Program','JAVA','Paul J. Deitel','Prentice Hall','1999/12/10',6,600,'A1','2011/05/12','S01'),
+('BL000004','Java: The Complete Reference','JAVA','Herbert Schildt','Tata Mcgraw Hill','2011/10/10',5,750,'A1','2012/05/12','S01'),
+('BL000005','Java How To Do Program','JAVA','Paul J. Deitel','Prentice Hall','2009/12/10',6,600,'A1','2012/05/12','S01'),
+('BL000006','Java: The Complete Reference','JAVA','Herbert Schildt','Tata Mcgraw Hill','2011/10/10',5,750,'A1','2011/05/12','S03'),
+('BL000007','Let Us C','C','Yashavant Kanetkar','BPB Publications','2010/12/11',9,500,'A3','2010/01/03','S03'),
+('BL000008','Let Us C','C','Yashavant Kanetkar','BPB Publications','2010/12/11',9,500,'A3','2010/01/03','S04');
+
+INSERT INTO LMS_BOOK_ISSUE VALUES
+(1, 'LM001',    'BL000001', '2012/05/01', '2012/05/16', '2012/05/16', 'N', 'R1'),
+(2, 'LM002',    'BL000002', '2012/04/20', '2012/05/06', '2012/05/04', 'N', 'R2'),
+(3, 'LM003', 'BL000007', '2012/04/01', '2012/04/16', '2012/04/20', 'Y', 'R1'),
+(4, 'LM004', 'BL000005', '2012/04/01', '2012/04/16', '2012/04/20', 'Y', 'R1'),
+(5, 'LM005', 'BL000008', '2012/03/30', '2012/04/15', '2012/04/20', 'N', 'R2');
+
+
+
+
+-- **************************************************************************************
+--                                 Simple questions
+-- **************************************************************************************
+
+-- Problem # 1:
+-- Write a query to display the member id, member name, city and membership status who
+-- are all having life time membership. Hint: Life time membership status is “Permanent”.
+
+
+
+-- Problem # 2:
+-- Write a query to display the book code, publication, price and supplier name of the book
+-- which is taken frequently.
+
+
+-- 
+
+-- 
+
+-- *********************************************************************************************
+-- 									Average Questions:
+-- *********************************************************************************************
+
+-- Problem # 1:
+-- Write a query to display the member id, member name of the members, book code and book title
+-- of the books taken by them.
+
+
+-- Problem # 2:
+-- Write a query to display the total number of books available in the library with alias name 
+-- “NO_OF_BOOKS_AVAILABLE” (Which is not issued). Hint: The issued books details are available 
+-- in the LMS_BOOK_ISSUE table. 
+
+
+-- ***********************************************************************************************
+-- 										Complex Questions:
+-- ***********************************************************************************************
+
+
+-- Problem # 1:
+-- Write a query to display the book code, book title and supplier name of the supplier who has supplied 
+-- maximum number of books. For example, if “ABC Store” supplied 3 books, “LM Store” has supplied 2 books 
+-- and “XYZ Store” has supplied 1 book. So “ABC Store” has supplied maximum number of books, hence display 
+-- the details as mentioned below. 
+-- Example:
+-- BOOK_CODE	BOOK_TITLE	  				SUPPLIER_NAME
+-- BL000008		Easy Reference for Java   	ABC STORE
+-- BL000001		Easy Reference for C     	ABC STORE
+-- BL000003		Easy Reference for VB    	ABC STORE
+
+
+
